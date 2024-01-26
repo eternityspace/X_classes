@@ -19,8 +19,8 @@ class Phone(Field):
     def __init__(self, value):
 
         if len(str(value)) == 10:
-
-            super().__init__(str(int(value)))
+            int(value)
+            super().__init__(value)
         else:
             raise ValueError
 
