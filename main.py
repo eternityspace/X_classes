@@ -20,9 +20,12 @@ class Phone(Field):
 
         if len(str(value)) == 10:
             int(value)
-            super().__init__(value)
+            super().__init__((value))
         else:
             raise ValueError
+
+    def __eq__(self, other):
+        return isinstance(other, Phone) and self.value == other.value
 
 
 class Record:
@@ -33,18 +36,18 @@ class Record:
         else:
             self.phones = [phone]
 
-    def add_phone(self, phone):
+    def add_phone(self, phone: str):
         self.phones.append(phone)
 
     def remove_phone(self, phone):
-        self.phones = [p for p in self.phones if p.value != phone]
+        self.phones = [p for p in self.phones if p != phone]
 
     def edit_phone(self, old_phone, new_phone):
         # idx = self.phones.index(old_phone)
         # self.phones[idx] = new_phone
         for phone in self.phones:
-            if phone.value == old_phone:
-                phone.value = new_phone
+            if phone == old_phone:
+                phone = new_phone
 
     def edit_name(self, new_name):
         self.name = Name(new_name)
@@ -52,11 +55,11 @@ class Record:
     def find_phone(self, search):
 
         for phone in self.phones:
-            if phone.value == search:
-                return True
+            if phone == search:
+                return phone
 
     def __str__(self):
-        return f"Contact name: {self.name.value}, phones: {'; '.join(p.value for p in self.phones)}"
+        return f"Contact name: {self.name.value}, phones: {'; '.join(p for p in self.phones)}"
 
 
 class AddressBook(UserDict):
@@ -67,7 +70,7 @@ class AddressBook(UserDict):
         return self.data.get(name, None)
 
     def delete(self, record):
-        name = str(record.name)
+        name = record
         if name in self.data:
             del self.data[name]
 
@@ -96,7 +99,8 @@ def add(user_command):
     phone = None
 
     if len(user_command) > 2:
-        phone = Phone(user_command[2])
+        # phone = Phone(user_command[2])
+        phone = user_command[2]
 
     if name.value not in book:
 
@@ -252,7 +256,7 @@ def remove(user_command):
             return book.find(name)
 
     elif record:
-        book.delete(record)
+        book.delete(record.name)
 
         return '\n  Contact has been removed\n'
 
@@ -277,7 +281,7 @@ if __name__ == '__main__':
         
     create new contact   - - - > 'add name' or 'add name phone(10 digits)'
     add phone to contact - - - > 'add name phone(10 digits)'
-    find name or phone   - - - > 'find name' or 'find phone(10 digits)'
+    find name or phone   - - - > 'find name' or 'find phone'
     edit contact name    - - - > 'edit old_name new_name'
     edit conctact phone  - - - > 'edit name old_phone new_phone(10 digits)'
     remove contact       - - - > 'remove name'
