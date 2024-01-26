@@ -45,6 +45,7 @@ class Record:
     def edit_phone(self, old_phone, new_phone):
         idx = self.phones.index(old_phone)
         self.phones[idx] = new_phone
+        # print(new_phone == '4444444444')
 
     def edit_name(self, new_name):
         self.name = Name(new_name)
@@ -53,7 +54,7 @@ class Record:
 
         for phone in self.phones:
             if phone == search:
-                return phone
+                return Phone(phone)
 
     def __str__(self):
         return f"Contact name: {self.name.value}, phones: {'; '.join(p for p in self.phones)}"
