@@ -43,11 +43,8 @@ class Record:
         self.phones = [p for p in self.phones if p != phone]
 
     def edit_phone(self, old_phone, new_phone):
-        # idx = self.phones.index(old_phone)
-        # self.phones[idx] = new_phone
-        for phone in self.phones:
-            if phone == old_phone:
-                phone = new_phone
+        idx = self.phones.index(old_phone)
+        self.phones[idx] = new_phone
 
     def edit_name(self, new_name):
         self.name = Name(new_name)
