@@ -277,7 +277,7 @@ if __name__ == '__main__':
         
     create new contact   - - - > 'add name' or 'add name phone(10 digits)'
     add phone to contact - - - > 'add name phone(10 digits)'
-    find name or phone   - - - > 'find name' or 'find phone'
+    find name or phone   - - - > 'find name' or 'find phone(10 digits)'
     edit contact name    - - - > 'edit old_name new_name'
     edit conctact phone  - - - > 'edit name old_phone new_phone(10 digits)'
     remove contact       - - - > 'remove name'
