@@ -267,6 +267,9 @@ def remove(user_command):
     name = user_command[1]
     record = book.find(name)
 
+    if not record:
+        raise KeyError
+
     if len(user_command) > 2:
 
         phone = user_command[2]
