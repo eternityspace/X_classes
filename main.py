@@ -1,6 +1,68 @@
 from collections import UserDict
 
 
+class Field:
+
+    def __init__(self, value):
+
+        if self.validator(value):
+            self.value = value
+        else:
+            raise ValueError
+
+    def __str__(self):
+        return str(self.value)
+
+    @staticmethod
+    def validator(value):
+        return True
+
+
+class Name(Field):
+    pass
+
+
+class Phone(Field):
+
+    @staticmethod
+    def validator(value):
+        return len(str(value)) == 10
+
+
+class Record:
+    def __init__(self, name, phone=None):
+        self.name = Name(name)
+        if phone == None:
+            self.phones = []
+        else:
+            self.phones = [Phone(phone)]
+
+    def add_phone(self, phone: str):
+        self.phones.append(Phone(phone))
+
+    def edit_name(self, new_name):
+        self.name.value = Name(new_name)
+
+    def edit_phone(self, old_phone, new_phone):
+        phone = self.find_phone(old_phone)
+        self.remove_phone(phone.value)
+        self.add_phone(new_phone)
+
+    def find_phone(self, search):
+
+        for phone in self.phones:
+            if str(phone.value) == search:
+                return phone
+
+        raise ValueError
+
+    def remove_phone(self, phone):
+        self.phones = [p for p in self.phones if p.value != phone]
+
+    def __str__(self):
+        return f"Contact name: {self.name.value}, phones: {'; '.join(p.value for p in self.phones)}"
+
+
 class AddressBook(UserDict):
     def add_record(self, record):
         self.data[record.name.value] = record
@@ -34,68 +96,8 @@ class AddressBook(UserDict):
         else:
             raise KeyError
 
-
-class Field:
-    def __init__(self, value):
-        self.value = value
-
-    def __str__(self):
-        return str(self.value)
-
-
-class Name(Field):
-    def __init__(self, value):
-
-        super().__init__(value)
-
-
-class Phone(Field):
-    def __init__(self, value):
-
-        if len(str(value)) == 10:
-            int(value)
-            super().__init__((value))
-        else:
-            raise ValueError
-
     # def __eq__(self, other):
     #     return isinstance(other, Phone) and self.value == other.value
-
-
-class Record:
-    def __init__(self, name, phone=None):
-        self.name = Name(name)
-        if phone == None:
-            self.phones = []
-        else:
-            self.phones = [Phone(phone)]
-
-    def add_phone(self, phone: str):
-        self.phones.append(Phone(phone))
-
-    def edit_name(self, new_name):
-        self.name.value = Name(new_name)
-
-    def edit_phone(self, old_phone, new_phone):
-        phone = self.find_phone(old_phone)
-        if phone:
-            self.remove_phone(phone.value)
-            self.add_phone(new_phone)
-
-        else:
-            raise ValueError
-
-    def find_phone(self, search):
-
-        for phone in self.phones:
-            if str(phone.value) == search:
-                return phone
-
-    def remove_phone(self, phone):
-        self.phones = [p for p in self.phones if p.value != phone]
-
-    def __str__(self):
-        return f"Contact name: {self.name.value}, phones: {'; '.join(p.value for p in self.phones)}"
 
 
 book = AddressBook()
