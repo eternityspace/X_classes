@@ -15,13 +15,16 @@ class AddressBook(UserDict):
         for person in self.data:
             print('16', type(person), person)
             print('17', type(name), name)
-            if str(person.value) == name:
-                # if person == name:
-                self.data.pop(person)
-                return
-            # if person == name:
-            #     self.data.pop(person)
-            #     return
+
+            if isinstance(person, Name):
+                if str(person.value) == name:
+                    # if person == name:
+                    self.data.pop(person)
+                    return
+            else:
+                if person == name:
+                    self.data.pop(person)
+                    return
 
     def edit_record(self, old_name, new_name: str):
         record = self.find(old_name)
@@ -287,7 +290,7 @@ def remove(user_command):
 
     elif record:
 
-        book.delete(str(record.name.value))
+        book.delete(name)
         return '\n  Contact has been removed\n'
 
     else:
