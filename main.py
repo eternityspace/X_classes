@@ -14,7 +14,9 @@ class AddressBook(UserDict):
     def delete(self, name) -> str:
         for person in self.data:
             print('16', type(person), person)
+            print('17', type(name), name)
             if str(person.value) == name:
+                # if person == name:
                 self.data.pop(person)
                 return
             # if person == name:
@@ -22,17 +24,17 @@ class AddressBook(UserDict):
             #     return
 
     def edit_record(self, old_name, new_name: str):
-        old_record = self.find(old_name)
-        print('22', type(old_record))
-        if old_record:
-            book.delete(old_name)
-            print('26', type(old_record.name.value))
-            old_record.edit_name(new_name)
-            print('28', type(old_record.name.value))
-            print('29', old_record.name.value)
-            new_record = old_record
-            book.add_record(new_record)
-            print('29', type(new_record), new_record)
+        record = self.find(old_name)
+        print('22', type(record))
+        if record:
+            book.delete(str(record.name.value))
+            print('26', type(record.name.value))
+            record.edit_name(new_name)
+            print('28', type(record.name.value))
+            print('29', record)
+
+            book.add_record(record)
+            print('29', type(record), record)
             # return new_record
 
         else:
@@ -79,7 +81,7 @@ class Record:
 
     def edit_name(self, new_name):
         print('   78', type(self.name))
-        self.name.value = new_name
+        self.name.value = Name(new_name)
         print('   80', type(self.name), self.name)
 
     def edit_phone(self, old_phone, new_phone):
@@ -289,7 +291,7 @@ def remove(user_command):
         return '\n  Contact has been removed\n'
 
     else:
-        return '\n  User not found\n'
+        raise KeyError
 
 
 def show_all():
