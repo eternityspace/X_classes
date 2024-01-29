@@ -13,12 +13,9 @@ class AddressBook(UserDict):
 
     def delete(self, name) -> str:
         for person in self.data:
-            print('16', type(person), person)
-            print('17', type(name), name)
 
             if isinstance(person, Name):
                 if str(person.value) == name:
-                    # if person == name:
                     self.data.pop(person)
                     return
             else:
@@ -28,17 +25,11 @@ class AddressBook(UserDict):
 
     def edit_record(self, old_name, new_name: str):
         record = self.find(old_name)
-        print('22', type(record))
         if record:
-            book.delete(str(record.name.value))
-            print('26', type(record.name.value))
-            record.edit_name(new_name)
-            print('28', type(record.name.value))
-            print('29', record)
 
+            book.delete(str(record.name.value))
+            record.edit_name(new_name)
             book.add_record(record)
-            print('29', type(record), record)
-            # return new_record
 
         else:
             raise KeyError
@@ -83,9 +74,7 @@ class Record:
         self.phones.append(Phone(phone))
 
     def edit_name(self, new_name):
-        print('   78', type(self.name))
         self.name.value = Name(new_name)
-        print('   80', type(self.name), self.name)
 
     def edit_phone(self, old_phone, new_phone):
         phone = self.find_phone(old_phone)
